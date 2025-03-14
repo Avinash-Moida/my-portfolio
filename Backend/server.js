@@ -9,9 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://127.0.0.1:5500",
-      "http://localhost:3000",
-      "https://your-frontend-domain.com",
+      "https://myportfolio-frontend-orb3xy35l-avinash-moidas-projects.vercel.app",
     ],
     methods: ["POST", "GET"],
     allowedHeaders: ["Content-Type"],
