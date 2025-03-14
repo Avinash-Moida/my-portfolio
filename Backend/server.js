@@ -8,9 +8,7 @@ const app = express();
 // ✅ Middleware
 app.use(
   cors({
-    origin: [
-      "https://myportfolio-frontend-orb3xy35l-avinash-moidas-projects.vercel.app",
-    ],
+    origin: ["https://myportfolio-frontend-gamma.vercel.app"],
     methods: ["POST", "GET"],
     allowedHeaders: ["Content-Type"],
   })

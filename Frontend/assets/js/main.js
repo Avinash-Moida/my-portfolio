@@ -78,7 +78,7 @@ document
 
     try {
       const response = await fetch(
-        "https://myportfolio-frontend-927edknlz-avinash-moidas-projects.vercel.app/api/contact",
+        "https://myportfolio-frontend-gamma.vercel.app/api/contact",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
