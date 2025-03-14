@@ -8,12 +8,19 @@ const app = express();
 // ✅ Middleware
 app.use(
   cors({
-    origin: ["https://myportfolio-frontend-gamma.vercel.app"],
+    origin: ["https://myportfolio-frontend-gamma.vercel.app"], // Ensure this is correct
     methods: ["POST", "GET"],
     allowedHeaders: ["Content-Type"],
   })
 );
 app.use(express.json()); // Parses JSON data
+
+// ✅ Check for missing environment variables
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  console.error(
+    "❌ Missing EMAIL_USER or EMAIL_PASS in environment variables."
+  );
+}
 
 // ✅ Verify Nodemailer Transporter
 const transporter = nodemailer.createTransport({
@@ -24,14 +31,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.verify((error, success) => {
+transporter.verify((error) => {
   if (error) {
-    console.error("Nodemailer Transport Error:", error);
+    console.error("❌ Nodemailer Transport Error:", error);
   } else {
     console.log("✅ Nodemailer is ready to send emails");
   }
 });
 
+// ✅ Root Route for Testing
 app.get("/", (req, res) => {
   res.send("✅ Backend is live!");
 });
@@ -53,7 +61,6 @@ app.post("/api/contact", async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-
     res.status(200).json({ message: "✅ Message sent successfully!" });
   } catch (error) {
     console.error("❌ Error sending email:", error);
@@ -61,5 +68,5 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// ✅ Export the app for Vercel
+// ✅ Required for Vercel (Export the app)
 module.exports = app;
