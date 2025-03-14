@@ -34,8 +34,12 @@ transporter.verify((error, success) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("✅ Backend is live!");
+});
+
 // ✅ Contact Route
-app.post("/contact", async (req, res) => {
+app.post("/api/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {

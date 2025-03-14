@@ -77,11 +77,14 @@ document
     }
 
     try {
-      const response = await fetch("http://localhost:5000/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
-      });
+      const response = await fetch(
+        "https://myportfolio-frontend-927edknlz-avinash-moidas-projects.vercel.app/api/contact",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
