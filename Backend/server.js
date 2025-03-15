@@ -8,43 +8,19 @@ const app = express();
 // ✅ Middleware
 app.use(
   cors({
-    origin: ["https://myportfolio-frontend-gamma.vercel.app"], // Ensure this is correct
+    origin: ["https://myportfolio-frontend-gamma.vercel.app"], // Replace with your actual frontend domain
     methods: ["POST", "GET"],
     allowedHeaders: ["Content-Type"],
   })
 );
 app.use(express.json()); // Parses JSON data
 
-// ✅ Check for missing environment variables
-if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-  console.error(
-    "❌ Missing EMAIL_USER or EMAIL_PASS in environment variables."
-  );
-}
-
-// ✅ Verify Nodemailer Transporter
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-transporter.verify((error) => {
-  if (error) {
-    console.error("❌ Nodemailer Transport Error:", error);
-  } else {
-    console.log("✅ Nodemailer is ready to send emails");
-  }
-});
-
-// ✅ Root Route for Testing
+// ✅ Root Route (To Check if Backend is Running)
 app.get("/", (req, res) => {
   res.send("✅ Backend is live!");
 });
 
-// ✅ Contact Route
+// ✅ Contact API Route
 app.post("/api/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -53,6 +29,14 @@ app.post("/api/contact", async (req, res) => {
   }
 
   try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
     const mailOptions = {
       from: email,
       to: process.env.EMAIL_USER, // Your email
@@ -68,5 +52,11 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// ✅ Required for Vercel (Export the app)
+// ✅ Start Server for Local Testing (Vercel Doesn't Need This)
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+}
+
+// ✅ Export the App for Vercel Deployment
 module.exports = app;

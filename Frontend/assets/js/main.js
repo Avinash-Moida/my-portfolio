@@ -78,7 +78,7 @@ document
 
     try {
       const response = await fetch(
-        "https://myportfolio-backend-ko6q9bq74-avinash-moidas-projects.vercel.app/api/contact",
+        "https://myportfolio-backend-new.vercel.app/api/contact", // ✅ Updated backend URL
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
